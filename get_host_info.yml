@@ -33,7 +33,7 @@
         Disk Capacity: {{ disk_capacity_result.stdout }}
         Disk Usage: {{ disk_usage_result.stdout }}
       dest: "/tmp/{{ hostname_result }}_inventory_information"
-    when: hostname_result.stdout  and os_result.stdout and os_version_result.stdout and disk_capacity_result.stdout and disk_usage_result.stdout
+    when: hostname_result.stdout and os_result.stdout and os_version_result.stdout and disk_capacity_result.stdout and disk_usage_result.stdout
   
   - name: Display Information
     debug:
