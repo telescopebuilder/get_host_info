@@ -27,6 +27,7 @@
   - name: Save Output to File with Hostname as prefix
     copy:
       content: |
+        Hostname: {{ hostname_result.stdout }}
         Operating System: {{ os_result.stdout }}
         Operating System Release Version: {{ os_version_result.stdout }}
         Disk Capacity: {{ disk_capacity_result.stdout }}
