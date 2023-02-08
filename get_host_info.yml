@@ -42,6 +42,7 @@
   - name: Save Information
     shell: echo "Hostname: {{ hostname_result.stdout }} OS: {{ os_result.stdout }} Version: {{ os_version_result.stdout }} Disk capacity: {{ disk_capacity_result.stdout }} Disk usage {{ disk_usage_result.stdout }}" > "{{ hostname_result.stdout }}_inventory_information.txt"
 
+
       
 #TODO Transfer file via SCP back to AWX
 #  - name: Transfer file via SCP
