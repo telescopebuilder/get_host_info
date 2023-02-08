@@ -1,13 +1,4 @@
 ---
-#TODO Transfer file via SCP back to AWX server avoiding SCP password prompt
-#  - name: Transfer file via SCP
-#    local_action:
-#      module: scp
-#      src: "/tmp/{{ inventory_hostname }}_inventory_information.txt"
-#      dest: andy@andy-awxnode-test:~/awx-host-info/
-#      username: andy
-
-
 - name: Get Linux Host Information
   hosts: all
   gather_facts: yes
@@ -32,6 +23,26 @@
     shell: df -h | grep "/$" | awk '{print $3}'
     register: disk_usage_result
 
+  - name: Get Apache Version
+    shell: apache2 -v | grep version | awk '{print $3}'
+    register: apache_version_result
+
+  - name: Get Apache Service Status
+    shell: systemctl is-active apache2
+    register: apache_status_result
+
+  - name: Get Java Version
+    shell: java -version 2>&1 | awk -F '"' '/version/ {print $2}'
+    register: java_version_result
+
+  - name: Get MySQL Version
+    shell: mysql -V | awk '{print $5}'
+    register: mysql_version_result
+
+  - name: Get MySQL Service Status
+    shell: systemctl is-active mysql
+    register: mysql_status_result
+
   - name: Save Output to File with Hostname as prefix
     copy:
       content: |
@@ -40,11 +51,24 @@
         Operating System Release Version: {{ os_version_result.stdout }}
         Disk Capacity: {{ disk_capacity_result.stdout }}
         Disk Usage: {{ disk_usage_result.stdout }}
+        Apache Version: {{ apache_version_result.stdout }}
+        Apache Service Status: {{ apache_status_result.stdout }}
+        Java Version: {{ java_version_result.stdout }}
+        MySQL Version: {{ mysql_version_result.stdout }}
+        MySQL Service Status: {{ mysql_status_result.stdout }}
       dest: "/tmp/{{ hostname_result.stdout }}_inventory_information.txt"
-    when: hostname_result.stdout and os_result.stdout and os_version_result.stdout and disk_capacity_result.stdout and disk_usage_result.stdout
+    when: hostname_result.stdout and os_result.stdout and os_version_result.stdout and disk_capacity_result.stdout and disk_usage_result.stdout and apache_version_result.stdout and apache_status_result.stdout and java_version_result.stdout and mysql_version_result.stdout and mysql_status_result.stdout
 
-  - name: Print Information
-    debug:
-      msg: "Hostname: {{ hostname_result.stdout }} \n OS: {{ os_result.stdout }} \n Version: {{ os_version_result.stdout }} \n Disk capacity: {{ disk_capacity_result.stdout }} \n Disk usage {{ disk_usage_result.stdout }}"
-
-     
+ - name: Print Information
+  debug:
+    msg: |
+      Hostname: {{ hostname_result.stdout }}
+      Operating System: {{ os_result.stdout }}
+      Operating System Release Version: {{ os_version_result.stdout }}
+      Disk Capacity: {{ disk_capacity_result.stdout }}
+      Disk Usage: {{ disk_usage_result.stdout }}
+      Apache Version: {{ apache_version.stdout }}
+      Apache Status: {{ apache_status.stdout }}
+      Java Version: {{ java_version.stdout }}
+      MySQL Version: {{ mysql_version.stdout }}
+      MySQL Status: {{ mysql_status.stdout }}
