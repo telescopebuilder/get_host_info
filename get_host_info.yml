@@ -23,20 +23,45 @@
     shell: df -h | grep "/$" | awk '{print $3}'
     register: disk_usage_result
 
-  - name: Check if Java is installed
-    shell: java -version
+  - name: Check Java Installation
+    command: java -version
     register: java_result
-    ignore_errors: yes
+    ignore_errors: true
 
-  - name: Check if Apache2 is installed
-    shell: apache2 -v
+  - name: Get Java Version
+    set_fact:
+      java_version: "{{ java_result.stdout_lines[0] }}"
+    when: java_result.rc == 0
+
+  - name: Check Apache2 Installation
+    command: apache2 -v
     register: apache2_result
-    ignore_errors: yes
+    ignore_errors: true
 
-  - name: Check if MySQL is installed
-    shell: mysql -V
+  - name: Get Apache2 Version
+    set_fact:
+      apache2_version: "{{ apache2_result.stdout_lines[0] }}"
+    when: apache2_result.rc == 0
+
+  - name: Check MySQL Installation
+    command: mysql --version
     register: mysql_result
-    ignore_errors: yes
+    ignore_errors: true
+
+  - name: Get MySQL Version
+    set_fact:
+      mysql_version: "{{ mysql_result.stdout_lines[0] }}"
+    when: mysql_result.rc == 0
+
+  - name: Check Apache2 Running
+    shell: service apache2 status | grep -o "running"
+    register: apache2_running_result
+    ignore_errors: true
+
+  - name: Check MySQL Running
+    shell: service mysql status | grep -o "running"
+    register: mysql_running_result
+    ignore_errors: true
 
   - name: Save Output to File with Hostname as prefix
     copy:
@@ -46,12 +71,15 @@
         Operating System Release Version: {{ os_version_result.stdout }}
         Disk Capacity: {{ disk_capacity_result.stdout }}
         Disk Usage: {{ disk_usage_result.stdout }}
-        Java: {{ java_result.rc == 0 }}
-        Apache2: {{ apache2_result.rc == 0 }}
-        MySQL: {{ mysql_result.rc == 0 }}
+        Java: {{ java_result}}
+        Java Version: {{ java_version }}
+        Apache2: {{ apache2_version }}
+        Apache2 Running: {{ apache2_running_result.stdout }}
+        MySQL: {{ mysql_result }}
+        MySQL Runing: {{ mysql_mysql_running_result.stdout }}
       dest: "/tmp/{{ hostname_result.stdout }}_inventory_information.txt"
     when: hostname_result.stdout and os_result.stdout and os_version_result.stdout and disk_capacity_result.stdout and disk_usage_result.stdout
-
+    
   - name: Print Information
     debug:
       msg: |
@@ -60,6 +88,9 @@
         Operating System Release Version: {{ os_version_result.stdout }}
         Disk Capacity: {{ disk_capacity_result.stdout }}
         Disk Usage: {{ disk_usage_result.stdout }}
-        Java: {{ java_result.rc == 0 }}
-        Apache2: {{ apache2_result.rc == 0 }}
-        MySQL: {{ mysql_result.rc == 0 }}
+        Java: {{ java_result}}
+        Java Version: {{ java_version }}
+        Apache2: {{ apache2_version }}
+        Apache2 Running: {{ apache2_running_result.stdout }}
+        MySQL: {{ mysql_result }}
+        MySQL Runing: {{ mysql_mysql_running_result.stdout }}
