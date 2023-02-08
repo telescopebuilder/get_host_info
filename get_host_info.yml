@@ -37,3 +37,11 @@
   - name: Display Information
     debug:
       msg: "{{ os_result.stdout }} \n {{ os_version_result.stdout }} \n {{ disk_capacity_result.stdout }} \n {{ disk_usage_result.stdout }}"
+      
+#TODO Transfer file via SCP back to AWX
+#  - name: Transfer file via SCP
+#    local_action:
+#      module: scp
+#      src: "/tmp/{{ inventory_hostname }}_inventory_information"
+#      dest: andy@andy-awxnode-test:~/awx-host-info/
+#      username: andy
