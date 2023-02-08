@@ -52,7 +52,7 @@
       content: |
         Hostname: {{ hostname_result.stdout }}
         Operating System: {{ os_result.stdout }}
-        Operating System Release Version: {{ os_version_result.stdout }}
+        Release Version: {{ os_version_result.stdout }}
         Disk Capacity: {{ disk_capacity_result.stdout }}
         Disk Usage: {{ disk_usage_result.stdout }}
         Java: {{ java_result.stdout }}
