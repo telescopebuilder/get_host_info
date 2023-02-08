@@ -30,6 +30,6 @@
       dest: /tmp/inventory_information
     when: os_result.stdout and os_version_result.stdout and disk_capacity_result.stdout and disk_usage_result.stdout
   
-  - name: Display information
+  - name: Display Information
     debug:
       msg: "{{ os_result.stdout }} \n {{ os_version_result.stdout }} \n {{ disk_capacity_result.stdout }} \n {{ disk_usage_result.stdout }}"
