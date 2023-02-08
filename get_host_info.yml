@@ -1,0 +1,31 @@
+---
+- name: Get Linux Host Information
+  hosts: all
+  gather_facts: false
+  
+  tasks:
+  - name: Get Operating System
+    shell: cat /etc/os-release | grep "PRETTY_NAME" | awk -F '"' '{print $2}'
+    register: os_result
+
+  - name: Get Operating System Release Version
+    shell: cat /etc/os-release | grep "VERSION_ID" | awk -F '=' '{print $2}'
+    register: os_version_result
+
+  - name: Get Disk Capacity
+    shell: df -h | grep "/$" | awk '{print $2}'
+    register: disk_capacity_result
+
+  - name: Get Disk Usage
+    shell: df -h | grep "/$" | awk '{print $3}'
+    register: disk_usage_result
+
+  - name: Save Output to File
+    copy:
+      content: |
+        Operating System: {{ os_result.stdout }}
+        Operating System Release Version: {{ os_version_result.stdout }}
+        Disk Capacity: {{ disk_capacity_result.stdout }}
+        Disk Usage: {{ disk_usage_result.stdout }}
+      dest: /tmp/inventory_information
+    when: os_result.stdout and os_version_result.stdout and disk_capacity_result.stdout and disk_usage_result.stdout
