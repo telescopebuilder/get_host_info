@@ -60,15 +60,15 @@
     when: hostname_result.stdout and os_result.stdout and os_version_result.stdout and disk_capacity_result.stdout and disk_usage_result.stdout and apache_version_result.stdout and apache_status_result.stdout and java_version_result.stdout and mysql_version_result.stdout and mysql_status_result.stdout
 
  - name: Print Information
-  debug:
-    msg: |
-      Hostname: {{ hostname_result.stdout }}
-      Operating System: {{ os_result.stdout }}
-      Operating System Release Version: {{ os_version_result.stdout }}
-      Disk Capacity: {{ disk_capacity_result.stdout }}
-      Disk Usage: {{ disk_usage_result.stdout }}
-      Apache Version: {{ apache_version.stdout }}
-      Apache Status: {{ apache_status.stdout }}
-      Java Version: {{ java_version.stdout }}
-      MySQL Version: {{ mysql_version.stdout }}
-      MySQL Status: {{ mysql_status.stdout }}
+   debug:
+     msg: |
+       Hostname: {{ hostname_result.stdout }}
+       Operating System: {{ os_result.stdout }}
+       Operating System Release Version: {{ os_version_result.stdout }}
+       Disk Capacity: {{ disk_capacity_result.stdout }}
+       Disk Usage: {{ disk_usage_result.stdout }}
+       Apache Version: {{ apache_version.stdout }}
+       Apache Status: {{ apache_status.stdout }}
+       Java Version: {{ java_version.stdout }}
+       MySQL Version: {{ mysql_version.stdout }}
+       MySQL Status: {{ mysql_status.stdout }}
