@@ -21,7 +21,7 @@
     register: os_result
 
   - name: Get OS Release Version
-    shell: cat /etc/os-release | grep "VERSION_ID" | awk -F '=' '{print $2}'
+    shell: cat /etc/os-release | grep "VERSION_ID" | awk -F '=' '{print $2}' | tr -d '"'
     register: os_version_result
 
   - name: Get Disk Capacity
