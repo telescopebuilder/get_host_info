@@ -19,15 +19,19 @@
   - name: Get Disk Usage
     shell: df -h | grep "/$" | awk '{print $3}'
     register: disk_usage_result
+  
+  - name: Get Hostname
+    shell: hostname
+    register: hostname_result
 
-  - name: Save Output to File
+  - name: Save Output to File with Hostname as prefix
     copy:
       content: |
         Operating System: {{ os_result.stdout }}
         Operating System Release Version: {{ os_version_result.stdout }}
         Disk Capacity: {{ disk_capacity_result.stdout }}
         Disk Usage: {{ disk_usage_result.stdout }}
-      dest: /tmp/inventory_information
+      dest: "/tmp/{{ hostname_result }}_inventory_information"
     when: os_result.stdout and os_version_result.stdout and disk_capacity_result.stdout and disk_usage_result.stdout
   
   - name: Display Information
