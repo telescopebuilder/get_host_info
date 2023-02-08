@@ -63,15 +63,4 @@
 
   - name: Print Information
     debug:
-      msg: |
-        Hostname: {{ hostname_result.stdout }}
-        Operating System: {{ os_result.stdout }}
-        Operating System Release Version: {{ os_version_result.stdout }}
-        Disk Capacity: {{ disk_capacity_result.stdout }}
-        Disk Usage: {{ disk_usage_result.stdout }}
-        Java: {{ java_result.stdout }}
-        MySQL: {{ mysql_result.stdout }}
-        Apache: {{ apache2_result.stdout }}
-      
-      
-      #"Hostname: {{ hostname_result.stdout }} \n OS: {{ os_result.stdout }} \n Version: {{ os_version_result.stdout }} \n Disk capacity: {{ disk_capacity_result.stdout }} \n Disk usage {{ disk_usage_result.stdout }} \n Java: {{ java_result.stdout }} \n MySQL:  {{ mysql_result.stdout }} \n Apache: {{ apache2_result.stdout }}"
+      msg: "Hostname: {{ hostname_result.stdout }} \n OS: {{ os_result.stdout }} \n Version: {{ os_version_result.stdout }} \n Disk capacity: {{ disk_capacity_result.stdout }} \n Disk usage {{ disk_usage_result.stdout }} \n Java: {{ java_result.stdout }} \n MySQL:  {{ mysql_result.stdout }} \n Apache: {{ apache2_result.stdout }}"
