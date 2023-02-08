@@ -3,7 +3,7 @@
 #  - name: Transfer file via SCP
 #    local_action:
 #      module: scp
-#      src: "/tmp/{{ inventory_hostname }}_inventory_information"
+#      src: "/tmp/{{ inventory_hostname }}_inventory_information.txt"
 #      dest: andy@andy-awxnode-test:~/awx-host-info/
 #      username: andy
 
