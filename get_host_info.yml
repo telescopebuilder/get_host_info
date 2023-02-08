@@ -37,7 +37,7 @@
   
   - name: Display Information
     debug:
-      msg: "{{ os_result.stdout }} \n {{ os_version_result.stdout }} \n {{ disk_capacity_result.stdout }} \n {{ disk_usage_result.stdout }}"
+      msg: "{{ hostname_result.stdout }} \n {{ os_result.stdout }} \n {{ os_version_result.stdout }} \n {{ disk_capacity_result.stdout }} \n {{ disk_usage_result.stdout }}"
       
 #TODO Transfer file via SCP back to AWX
 #  - name: Transfer file via SCP
