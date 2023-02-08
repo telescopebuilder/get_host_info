@@ -43,7 +43,7 @@
     ignore_errors: yes
     
   - name: Get Apache version
-    shell: apache2 --version
+    shell: apache2 -v | grep "Server version:"
     register: apache2_result
     ignore_errors: yes
     
