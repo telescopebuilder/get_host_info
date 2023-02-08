@@ -23,21 +23,20 @@
     shell: df -h | grep "/$" | awk '{print $3}'
     register: disk_usage_result
 
-  - name: Get Apache Version
-    shell: apache2ctl -v | grep "Server version" | awk '{print $3, $4}'
-    register: apache_version_result
+  - name: Check if Java is installed
+    shell: java -version
+    register: java_result
+    ignore_errors: yes
 
-  - name: Get Apache Status
-    shell: apache2ctl status | grep "Apache Server Status"
-    register: apache_status_result
+  - name: Check if Apache2 is installed
+    shell: apache2 -v
+    register: apache2_result
+    ignore_errors: yes
 
-  - name: Get Java Version
-    shell: java -version 2>&1 | awk -F '"' '/version/ {print $2}'
-    register: java_version_result
-
-  - name: Get MySQL Version
-    shell: mysql -V | awk '{print $5}'
-    register: mysql_version_result
+  - name: Check if MySQL is installed
+    shell: mysql -V
+    register: mysql_result
+    ignore_errors: yes
 
   - name: Save Output to File with Hostname as prefix
     copy:
@@ -47,12 +46,11 @@
         Operating System Release Version: {{ os_version_result.stdout }}
         Disk Capacity: {{ disk_capacity_result.stdout }}
         Disk Usage: {{ disk_usage_result.stdout }}
-        Apache Version: {{ apache_version_result.stdout }}
-        Apache Status: {{ apache_status_result.stdout }}
-        Java Version: {{ java_version_result.stdout }}
-        MySQL Version: {{ mysql_version_result.stdout }}
+        Java: {{ java_result.rc == 0 }}
+        Apache2: {{ apache2_result.rc == 0 }}
+        MySQL: {{ mysql_result.rc == 0 }}
       dest: "/tmp/{{ hostname_result.stdout }}_inventory_information.txt"
-    when: hostname_result.stdout and os_result.stdout and os_version_result.stdout and disk_capacity_result.stdout and disk_usage_result.stdout and apache_version_result.stdout and apache_status_result.stdout and java_version_result.stdout and mysql_version_result.stdout
+    when: hostname_result.stdout and os_result.stdout and os_version_result.stdout and disk_capacity_result.stdout and disk_usage_result.stdout
 
   - name: Print Information
     debug:
@@ -62,7 +60,6 @@
         Operating System Release Version: {{ os_version_result.stdout }}
         Disk Capacity: {{ disk_capacity_result.stdout }}
         Disk Usage: {{ disk_usage_result.stdout }}
-        Apache Version: {{ apache_version_result.stdout }}
-        Apache Status: {{ apache_status_result.stdout }}
-        Java Version: {{ java_version_result.stdout }}
-        MySQL Version: {{ mysql_version_result.stdout }}
+        Java: {{ java_result.rc == 0 }}
+        Apache2: {{ apache2_result.rc == 0 }}
+        MySQL: {{ mysql_result.rc == 0 }}
