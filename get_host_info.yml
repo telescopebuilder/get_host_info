@@ -23,20 +23,24 @@
     shell: df -h | grep "/$" | awk '{print $3}'
     register: disk_usage_result
 
-  - name: Save Output to File with Hostname as prefix
-    copy:
-      content: |
-        Hostname: {{ hostname_result.stdout }}
-        Operating System: {{ os_result.stdout }}
-        Operating System Release Version: {{ os_version_result.stdout }}
-        Disk Capacity: {{ disk_capacity_result.stdout }}
-        Disk Usage: {{ disk_usage_result.stdout }}
-      dest: "/tmp/{{ hostname_result }}"
-    when: hostname_result.stdout and os_result.stdout and os_version_result.stdout and disk_capacity_result.stdout and disk_usage_result.stdout
-  
-  - name: Display Information
+#FILENAME TOO LONG ERROR
+#  - name: Save Output to File with Hostname as prefix
+#    copy:
+#      content: |
+#        Hostname: {{ hostname_result.stdout }}
+#        Operating System: {{ os_result.stdout }}
+#        Operating System Release Version: {{ os_version_result.stdout }}
+#        Disk Capacity: {{ disk_capacity_result.stdout }}
+#        Disk Usage: {{ disk_usage_result.stdout }}
+#      dest: "/tmp/{{ hostname_result }}"
+#    when: hostname_result.stdout and os_result.stdout and os_version_result.stdout and disk_capacity_result.stdout and disk_usage_result.stdout
+
+  - name: Print Information
     debug:
-      msg: "{{ hostname_result.stdout }} \n {{ os_result.stdout }} \n {{ os_version_result.stdout }} \n {{ disk_capacity_result.stdout }} \n {{ disk_usage_result.stdout }}"
+    msg: "Hostname: {{ hostname_result.stdout }} \n OS: {{ os_result.stdout }} \n Version: {{ os_version_result.stdout }} \n Disk capacity: {{ disk_capacity_result.stdout }} \n Disk usage {{ disk_usage_result.stdout }}"
+
+  - name: Save Information
+    shell: echo "Hostname: {{ hostname_result.stdout }} \n OS: {{ os_result.stdout }} \n Version: {{ os_version_result.stdout }} \n Disk capacity: {{ disk_capacity_result.stdout }} \n Disk usage {{ disk_usage_result.stdout }}" > "/tmp/{{ hostname_result }}"
       
 #TODO Transfer file via SCP back to AWX
 #  - name: Transfer file via SCP
