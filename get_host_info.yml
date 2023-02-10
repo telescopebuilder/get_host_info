@@ -34,9 +34,14 @@
     shell: cat /proc/meminfo | grep SwapTotal | awk '{print $2}'
     register: swap_memory_result
 
-  - name: Get IP and MAC Address
-    shell: ip addr show eth0 | grep "inet\b" | awk '{print $2}' | awk -F '/' '{print $1}'; ip addr show eth0 | grep link/ether | awk '{print $2}'
-    register: ip_mac_result
+  - name: Get IP Address
+    shell: ip addr show eth0 | grep "inet\b" | awk '{print $2}' | awk -F '/' '{print $1}'
+    register: ip_result
+
+  - name: Get MAC Address
+    shell: ip addr show eth0 | grep link/ether | awk '{print $2}'
+    register: mac_result
+
     
   - name: Get Java version
     shell: java -version 2>&1 | head -n 1 | awk -F '"' '{print $2}'
@@ -63,7 +68,8 @@
         Disk Usage: {{ disk_usage_result.stdout }}
         Total Memory: {{ total_memory_result.stdout }}
         SWAP Memory: {{ swap_memory_result.stdout }}
-        IP and MAC Address: {{ ip_mac_result.stdout }}
+        IP Address: {{ ip_result.stdout }}
+        MAC Address: {{ mac_result.stdout }}
         Java: {{ java_result.stdout }}
         MySQL: {{ mysql_result.stdout }}
         Apache: {{ apache2_result.stdout }}  
