@@ -48,7 +48,7 @@
     ignore_errors: yes
     
   - name: Get MySQL version
-    shell: mysql --version
+    shell: mysql --version | awk 'NR==1{print $3}' | cut -d '-' -f 1
     register: mysql_result
     ignore_errors: yes
     
@@ -72,6 +72,7 @@
         Java: {{ java_result.stdout }}
         MySQL: {{ mysql_result.stdout }}
         Apache: {{ apache2_result.stdout }}
+        -------------------------------------------------------------------------
       dest: "/tmp/{{ hostname_result.stdout }}_inventory_information.txt"
     #when: hostname_result.stdout and os_result.stdout and os_version_result.stdout and disk_capacity_result.stdout and disk_usage_result.stdout and total_memory_result.stdout and swap_memory_result.stdout and ip_mac_result.stdout
 
