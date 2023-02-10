@@ -1,13 +1,4 @@
 ---
-#TODO Transfer file via SCP back to AWX server avoiding SCP password prompt
-#  - name: Transfer file via SCP
-#    local_action:
-#      module: scp
-#      src: "/tmp/{{ inventory_hostname }}_inventory_information.txt"
-#      dest: andy@andy-awxnode-test:~/awx-host-info/
-#      username: andy
-
-
 - name: Get Linux Host Information
   hosts: all
   gather_facts: yes
