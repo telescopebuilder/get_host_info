@@ -22,6 +22,18 @@
   - name: Get Disk Usage
     shell: df -h | grep "/$" | awk '{print $3}'
     register: disk_usage_result
+
+  - name: Get Total Memory
+    shell: cat /proc/meminfo | grep MemTotal | awk '{print $2}'
+    register: total_memory_result
+
+  - name: Get SWAP Memory
+    shell: cat /proc/meminfo | grep SwapTotal | awk '{print $2}'
+    register: swap_memory_result
+
+  - name: Get IP and MAC Address
+    shell: ip addr show enp0s3 | grep "inet\b" | awk '{print $2}' | awk -F '/' '{print $1}'; ip addr show enp0s3 | grep link/ether | awk '{print $2}'
+    register: ip_mac_result
     
   - name: Get Java version
     shell: java -version 2>&1 | head -n 1 | awk -F '"' '{print $2}'
@@ -38,7 +50,6 @@
     register: apache2_result
     ignore_errors: yes
 
-
   - name: Save Output to File with Hostname as prefix
     copy:
       content: |
@@ -47,12 +58,16 @@
         Release Version: {{ os_version_result.stdout }}
         Disk Capacity: {{ disk_capacity_result.stdout }}
         Disk Usage: {{ disk_usage_result.stdout }}
+        Total Memory: {{ total_memory_result.stdout }}
+        SWAP Memory: {{ swap_memory_result.stdout }}
+        IP and MAC Address: {{ ip_mac_result.stdout }}
         Java: {{ java_result.stdout }}
         MySQL: {{ mysql_result.stdout }}
         Apache: {{ apache2_result.stdout }}
+        
       dest: "/tmp/{{ hostname_result.stdout }}_inventory_information.txt"
-    when: hostname_result.stdout and os_result.stdout and os_version_result.stdout and disk_capacity_result.stdout and disk_usage_result.stdout
+    when: hostname_result.stdout and os_result.stdout and os_version_result.stdout and disk_capacity_result.stdout and disk_usage_result.stdout and total_memory_result.stdout and swap_memory_result.stdout and ip_mac_result.stdout
 
   - name: Print Information
     debug:
-      msg: "Hostname: {{ hostname_result.stdout }} \n OS: {{ os_result.stdout }} \n Version: {{ os_version_result.stdout }} \n Disk capacity: {{ disk_capacity_result.stdout }} \n Disk usage {{ disk_usage_result.stdout }} \n Java: {{ java_result.stdout }} \n MySQL:  {{ mysql_result.stdout }} \n Apache: {{ apache2_result.stdout }}"
+      msg: "Hostname: {{ hostname_result.stdout }} \n OS: {{ os_result.stdout }} \n Version: {{ os_version_result.stdout }} \n Disk capacity: {{ disk_capacity_result.stdout }} \n Disk usage {{ disk_usage_result.stdout }} \n Total Memory: {{ total_memory_result.stdout }} \n SWAP Memory: {{ swap_memory_result.stdout }} \n IP and MAC Address: {{ ip_mac_result.stdout }} \n Java: {{ java_result.stdout }} \n MySQL:  {{ mysql_result.stdout }} \n Apache: {{ apache
