@@ -1,6 +1,9 @@
 ---
 - name: Get Linux Host Information
-  hosts: all
+  hosts:
+  - ubuntu-test-srv-1
+  - ubuntu-test-srv-2
+  - ubuntu-test-srv-3
   gather_facts: yes
   tasks:
   - name: Get Hostname
