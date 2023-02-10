@@ -65,8 +65,8 @@
         Release Version: {{ os_version_result.stdout }}
         Disk Capacity: {{ disk_capacity_result.stdout }}
         Disk Usage: {{ disk_usage_result.stdout }}
-        Total Memory: {{ total_memory_result.stdout }}
-        SWAP Memory: {{ swap_memory_result.stdout }}
+        Total Memory: {{ total_memory_result.stdout }} MB
+        SWAP Memory: {{ swap_memory_result.stdout }} MB
         IP Address: {{ ip_result.stdout }}
         MAC Address: {{ mac_result.stdout }}
         Java: {{ java_result.stdout }}
