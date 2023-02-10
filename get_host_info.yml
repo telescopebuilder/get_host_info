@@ -35,7 +35,7 @@
     register: swap_memory_result
 
   - name: Get IP and MAC Address
-    shell: ip addr show enp0s3 | grep "inet\b" | awk '{print $2}' | awk -F '/' '{print $1}'; ip addr show enp0s3 | grep link/ether | awk '{print $2}'
+    shell: ip addr show eth0 | grep "inet\b" | awk '{print $2}' | awk -F '/' '{print $1}'; ip addr show eth0 | grep link/ether | awk '{print $2}'
     register: ip_mac_result
     
   - name: Get Java version
