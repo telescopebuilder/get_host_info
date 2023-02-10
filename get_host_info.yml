@@ -78,4 +78,4 @@
 
   - name: Print Information
     debug:
-      msg: "Hostname: {{ hostname_result.stdout }} \n OS: {{ os_result.stdout }} \n Version: {{ os_version_result.stdout }} \n Disk capacity: {{ disk_capacity_result.stdout }} \n Disk usage {{ disk_usage_result.stdout }} \n Total Memory: {{ total_memory_result.stdout }} \n SWAP Memory: {{ swap_memory_result.stdout }} \n IP and MAC Address: {{ ip_mac_result.stdout }} \n Java: {{ java_result.stdout }} \n MySQL:  {{ mysql_result.stdout }} \n Apache: {{ apache2_result.stdout }}"
+      msg: "Hostname: {{ hostname_result.stdout }} \n OS: {{ os_result.stdout }} \n Version: {{ os_version_result.stdout }} \n Disk capacity: {{ disk_capacity_result.stdout }} \n Disk usage {{ disk_usage_result.stdout }} \n Total Memory: {{ total_memory_result.stdout }} \n SWAP Memory: {{ swap_memory_result.stdout }} \n IP Address: {{ ip_result.stdout }} \n MAC Address: {{ mac_result.stdout }} \n Java: {{ java_result.stdout }} \n MySQL:  {{ mysql_result.stdout }} \n Apache: {{ apache2_result.stdout }}"
