@@ -27,11 +27,11 @@
     register: disk_usage_result
 
   - name: Get Total Memory
-    shell: cat /proc/meminfo | grep MemTotal | awk '{print $2}' / 1024
+    shell: expr $(cat /proc/meminfo | grep MemTotal | awk '{print $2}') / 1024
     register: total_memory_result
 
   - name: Get SWAP Memory
-    shell: cat /proc/meminfo | grep SwapTotal | awk '{print $2}' / 1024
+    shell: expr $(cat /proc/meminfo | grep SwapTotal | awk '{print $2}') / 1024
     register: swap_memory_result
 
   - name: Get IP Address
@@ -41,7 +41,6 @@
   - name: Get MAC Address
     shell: ip addr show eth0 | grep link/ether | awk '{print $2}'
     register: mac_result
-
     
   - name: Get Java version
     shell: java -version 2>&1 | head -n 1 | awk -F '"' '{print $2}'
